@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,11 +30,12 @@ import javax.swing.border.TitledBorder;
 
 
 public class GUI_JuegoAbreLaCaja extends  JFrame {
-private JPanel pSuperior, Pcentral,Pinferior,Pbotones,Oriente,Ooriente,Ooccidente;
-private JLabel icono,puntuacion,nivel;
+private JPanel pSuperior, Pcentral,Pinferior,Pbotones,Oriente,Ooriente,Ooccidente,inferior;
+private JLabel icono,puntuacion,nivel,vidas1;
 private JScrollPane deslizar;
 private JTextArea puntos,trabajo;
-private JButton iniciar, colorBotones[][],botonNivel,juegoTerminar;
+private JButton iniciar, colorBotones[][],botonNivel[],juegoTerminar,vidas[];
+private ArrayList<String>patronBotones;
 private int filas=4, columnas=3;
 
 
@@ -41,6 +43,7 @@ private int filas=4, columnas=3;
 
   
  private void initGUI() {
+    patronBotones= new ArrayList<>();
     pSuperior    = new  JPanel ();
     Ooccidente   = new  JPanel ();
     juegoTerminar= new JButton("Abandonar Juego");
@@ -51,7 +54,7 @@ private int filas=4, columnas=3;
     Ooriente   = new  JPanel ();
     puntuacion   = new  JLabel("Puntuacion:");
     puntos       = new  JTextArea(1,30);
-    puntos.setBorder(BorderFactory.createTitledBorder(null, "vera su puntuación  obtenida a lo largo del juego...",TitledBorder.CENTER,TitledBorder.DEFAULT_POSITION,new Font("Calibri",Font.PLAIN,12),Color.BLACK));
+    puntos.setBorder(BorderFactory.createTitledBorder(null, "Vera su puntuación  obtenida a lo largo del juego...",TitledBorder.CENTER,TitledBorder.DEFAULT_POSITION,new Font("Calibri",Font.PLAIN,12),Color.BLACK));
     puntos.setBackground(Color.LIGHT_GRAY);
     Ooriente.add(juegoTerminar);Ooriente.add(puntuacion);Ooriente.add(puntos);
     pSuperior.add(Ooccidente,BorderLayout.WEST);pSuperior.add(Ooriente,BorderLayout.WEST);
@@ -110,12 +113,35 @@ private int filas=4, columnas=3;
     deslizar.setBackground(Color.LIGHT_GRAY);
      Oriente.add(deslizar);
     
-     Pinferior   = new  JPanel ();
-     botonNivel  = new JButton ("");
+     
+     
+     Pinferior   = new  JPanel (); 
+     
+     vidas1 = new  JLabel ("Vidas:");
+     Pinferior.add(vidas1);
+     vidas = new JButton[2];
+     
+     for (int l=0;l< vidas.length;l++) {
+          
+          vidas[l] = new JButton(""+(l+0));
+          vidas[l].setPreferredSize(new Dimension(80,18));
+          Pinferior.add(vidas[l]);
+         
+     }
+     
+    
      nivel = new JLabel ("Nivel :");
-
-     botonNivel.setPreferredSize(new Dimension(80,18));
-     Pinferior.add(nivel);Pinferior.add(botonNivel);
+     Pinferior.add(nivel);
+     botonNivel  = new JButton [1];
+     
+     for (int l=0;l< botonNivel.length;l++) {
+          
+          botonNivel[l] = new JButton(""+(l+1));
+          botonNivel[l].setPreferredSize(new Dimension(80,18));
+          Pinferior.add(botonNivel[l]);
+         
+     }
+     
      Pinferior.setBorder(BorderFactory.createTitledBorder(null, "Panel inferior...",TitledBorder.DEFAULT_JUSTIFICATION,TitledBorder.DEFAULT_POSITION,new Font("Calibri",Font.PLAIN,12),Color.BLACK));
      add(Pinferior,BorderLayout.SOUTH);
      
@@ -162,10 +188,27 @@ private int filas=4, columnas=3;
     }
     
     class ManejaTeclas implements ActionListener,FocusListener{
-
+       int cVidas,puntos,topeNumeros;
         @Override
         public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            if(e.getSource()==iniciar)
+            {
+             //iniciar  las variables del juego 
+               cVidas=1;
+               puntos=0;
+               topeNumeros=50;
+               
+             // hacer los botones de forma aleatoria
+             for (int i=0;i< filas;i++)    {
+             for (int j=0;j< columnas;j++) {
+             int alea= (int)(Math.random()*topeNumeros);
+              colorBotones[i][j].setText(""+alea);
+          
+            }
+       
+            }
+            // hacer los botones de forma aleatoria
+          }
         }
 
         @Override
